@@ -9,7 +9,7 @@ Morphometric analysis of the CC revealed robust gestational age-dependent growth
 | Stage | What it does | Code |
 | :--- | :--- | :--- |
 | 1. Segmentation | 3D nnU-Net inference on fetal brain reconstructions | `scripts/predict.sh` |
-| 2. Characterization | Shape, regional and FA measures from the predicted masks | `scripts/cc-morphometry.py` |
+| 2. Characterization | Shape, regional and FA measures from the predicted masks | `scripts/cc_morphometry.py` |
 ## Input Data
 3D fetal brain reconstructions meeting the following criteria:
 - T2w image (e.g., 0.5 × 0.5 × 0.5 mm<sup>3</sup>) / FA map from dMRI data (e.g., 15 b = 0 s/mm<sup>2</sup>, 46 b = 400 s/mm<sup>2</sup>, 80 b = 1000 s/mm<sup>2</sup> at 2 mm isotropic resolution)
@@ -30,7 +30,9 @@ Three separate 3D nnU-Net architectures were trained on the dHCP fetal cohort:
 | `Dataset032_CC_T2w_FA` | T2w + FA (dual-channel) | `_0000`, `_0001` |
 
 Follow the [nnU-Net](https://github.com/mic-dkfz/nnunet) instructions for installation and environment setup, then run inference:
-`./scripts/predict.sh dual INPUT_FOLDER OUTPUT_FOLDER`
+```bash
+./scripts/predict.sh dual INPUT_FOLDER OUTPUT_FOLDER`
+```
 
 Equivalently, in full: 
 ```bash
@@ -40,7 +42,7 @@ nnUNetv2_predict -d Dataset032_CC_T2w_FA -i INPUT_FOLDER -o OUTPUT_FOLDER -f 0 1
 ```
 ## Stage 2: Characterization
 ```bash
-python cc_morphometry.py --masks OUTPUT_FOLDER --fa INPUT_FOLDER --output results 
+python scripts/cc_morphometry.py --masks OUTPUT_FOLDER [--fa INPUT_FOLDER] --output results 
 ```
 
 ### Extracted parameters
@@ -54,7 +56,7 @@ python cc_morphometry.py --masks OUTPUT_FOLDER --fa INPUT_FOLDER --output result
 | Perimeter | `perimeter_length_mm`, `perimeter_curvature_mean`, `perimeter_curvature_max` |
 | Skeleton | `skeleton_length_mm`, `skeleton_curvature_mean` |
 | Thickness | `thickness_{mean,std,min,max}_mm`, `thickness_{genu,body,splenium}_mm` |
-| FA | `fa_mean`, `fa_{genu,body,splenium}` |
+| FA *(optional)* | `fa_mean`, `fa_{genu,body,splenium}` |
 
 ### Outputs
 
@@ -62,7 +64,7 @@ python cc_morphometry.py --masks OUTPUT_FOLDER --fa INPUT_FOLDER --output result
 | :--- | :--- |
 | `cc_morphometry.csv` | one row per subject, all scalar measures |
 | `cc_thickness_profiles.csv` | thickness in mm at each midline position |
-| `cc_fa_profiles.csv` | FA at each midline position |
+| `cc_fa_profiles.csv` *(optional)* | FA at each midline position |
 | `<subject>_split.nii.gz` | regional label map (1 genu, 2 body, 3 splenium) |
 | `qc/<subject>.png` | six-panel overview for visual inspection |
 
