@@ -36,17 +36,18 @@ Follow the [nnU-Net](https://github.com/mic-dkfz/nnunet) instructions for instal
 
 Equivalently, in full: 
 ```bash
-nnUNetv2_predict -d Dataset030_CC_T2w -i INPUT_FOLDER -o OUTPUT_FOLDER -f 0 1 2 3 4 -tr nnUNetTrainer -c 3d_fullres -p nnUNetPlans 
+nnUNetv2_predict -d Dataset030_CC_T2w -i INPUT_FOLDER -o OUTPUT_FOLDER -f 0 1 2 3 4 -tr nnUNetTrainer -c 3d_fullres -p nnUNetPlans
 nnUNetv2_predict -d Dataset031_CC_FA -i INPUT_FOLDER -o OUTPUT_FOLDER -f 0 1 2 3 4 -tr nnUNetTrainer -c 3d_fullres -p nnUNetPlans 
 nnUNetv2_predict -d Dataset032_CC_T2w_FA -i INPUT_FOLDER -o OUTPUT_FOLDER -f 0 1 2 3 4 -tr nnUNetTrainer -c 3d_fullres -p nnUNetPlans 
 ```
+Model weights are available [here](https://drive.google.com/drive/folders/1XhzOj4Lgiip6JG58lCAY9kHbFWud0kbv?usp=drive_link).
+
 ## Stage 2: Characterization
 ```bash
 python scripts/cc_morphometry.py --masks OUTPUT_FOLDER [--fa INPUT_FOLDER] --output results 
 ```
 
 ### Extracted parameters
-
 | Parameter | Columns |
 | :--- | :--- |
 | Area | `area_mm2`, `genu_area_mm2`, `body_area_mm2`, `splenium_area_mm2` |
@@ -59,7 +60,6 @@ python scripts/cc_morphometry.py --masks OUTPUT_FOLDER [--fa INPUT_FOLDER] --out
 | FA *(optional)* | `fa_mean`, `fa_{genu,body,splenium}` |
 
 ### Outputs
-
 | File | Contents |
 | :--- | :--- |
 | `cc_morphometry.csv` | one row per subject, all scalar measures |
